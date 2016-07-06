@@ -1,4 +1,4 @@
-package weijunfeng.com.androidutils;
+package weijunfeng.com.androidutils.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -27,7 +27,7 @@ public class VerticalTextView extends TextView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        super.onMeasure(heightMeasureSpec, widthMeasureSpec);
         setMeasuredDimension(getMeasuredHeight(), getMeasuredWidth());
     }
 

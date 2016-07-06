@@ -11,9 +11,6 @@ import java.net.URLEncoder;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by hexin on 2016/7/4.
- */
 public class OkHttpUtil {
 
     public static final String CHARSET = "UTF_8";

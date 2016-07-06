@@ -1,4 +1,4 @@
-package weijunfeng.com.androidutils;
+package weijunfeng.com.androidutils.view;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
