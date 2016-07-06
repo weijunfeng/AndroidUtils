@@ -6,8 +6,10 @@ import android.graphics.*;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import weijunfeng.com.androidutils.L;
 
 /**
  * 快速索引
@@ -15,7 +17,7 @@ import android.view.View;
  * 用于根据字母快速定位联系人
  */
 public class QuickIndexBar extends View {
-
+    private Context mcontext;
     private static final String[] LETTERS = {
             "A", "B", "C", "D", "E", "F",
             "G", "H", "I", "J", "K", "L",
@@ -30,6 +32,7 @@ public class QuickIndexBar extends View {
     private float cellHeight;
     private OnLetterClickListener listener;
     private Rect letterBounds;
+    private GestureDetector gestureDetector;
 
     public QuickIndexBar(Context context) {
         this(context, null);
@@ -41,13 +44,51 @@ public class QuickIndexBar extends View {
 
     public QuickIndexBar(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
+        mcontext = context;
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(Color.WHITE);
         mPaint.setTypeface(Typeface.DEFAULT_BOLD);
         // 获取文本的高度
         // 矩形
         letterBounds = new Rect();
+        gestureDetector = new GestureDetector(mcontext, new GestureDetector.OnGestureListener() {
+            @Override
+            public boolean onDown(MotionEvent e) {
+                L.i(TAG, "onDown");
+                return false;
+            }
+
+            @Override
+            public void onShowPress(MotionEvent e) {
+                L.i(TAG, "onShowPress");
+
+            }
+
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                L.i(TAG, "onSingleTapUp");
+
+                return false;
+            }
+
+            @Override
+            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                L.i(TAG, "onScroll");
+                return false;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+                L.i(TAG, "onLongPress");
+
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                L.i(TAG, "onFling");
+                return false;
+            }
+        });
     }
 
     public OnLetterClickListener getListener() {
@@ -82,11 +123,14 @@ public class QuickIndexBar extends View {
         }
     }
 
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int index = -1;
+//        getParent().requestDisallowInterceptTouchEvent(true);//请求父类不拦截事件
         switch (MotionEventCompat.getActionMasked(event)) {
             case MotionEvent.ACTION_DOWN:
+                L.i(TAG, "ontouch down");
                 // 获取当前触摸到的字母索引
                 index = (int) (event.getY() / cellHeight);
                 if (index >= 0 && index < LETTERS.length) {
@@ -98,35 +142,28 @@ public class QuickIndexBar extends View {
                         Log.d(TAG, "onTouchEvent: " + LETTERS[index]);
 
                         touchIndex = index;
+                        invalidate();
                     }
                 }
 
                 break;
             case MotionEvent.ACTION_MOVE:
-                index = (int) (event.getY() / cellHeight);
-                if (index >= 0 && index < LETTERS.length) {
-                    // 判断是否跟上一次触摸到的一样
-                    if (index != touchIndex) {
-
-                        if (listener != null) {
-                            listener.onLetterUpdate(LETTERS[index]);
-                        }
-                        Log.d(TAG, "onTouchEvent: " + LETTERS[index]);
-
-                        touchIndex = index;
-                    }
-                }
+                L.i(TAG, "ontouch move");
                 break;
             case MotionEvent.ACTION_UP:
-                touchIndex = -1;
+                L.i(TAG, "ontouch up");
+                if (touchIndex != -1) {
+                    touchIndex = -1;
+                    invalidate();
+                }
                 break;
 
             default:
                 break;
         }
-        invalidate();
 
-        return true;
+//        gestureDetector.onTouchEvent(event);
+        return false;
     }
 
     @Override
