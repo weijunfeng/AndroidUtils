@@ -7,15 +7,42 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 /**
  * 带清空的edittext
+ * 1、方法一(如果输入法在窗口上已经显示，则隐藏，反之则显示)
+ InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+
+
+
+ 2、方法二（view为接受软键盘输入的视图，SHOW_FORCED表示强制显示）
+ InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+imm.showSoftInput(view,InputMethodManager.SHOW_FORCED);
+
+
+
+imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏键盘
+
+
+
+ 3、调用隐藏系统默认的输入法
+((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(WidgetSearchActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);  (WidgetSearchActivity是当前的Activity)
+
+
+ 4、获取输入法打开的状态
+InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+boolean isOpen=imm.isActive();//isOpen若返回true，则表示输入法打开
+
+
  */
 public class ClearEditText extends EditText implements View.OnFocusChangeListener, TextWatcher {
     private Drawable mClearDrawable;
     private OnFocusChangeListener mFocusListener;
     private TextWatcher mWatcher;
+    private Context mContext;
 
     public ClearEditText(Context context) {
         this(context, null, 0);
@@ -27,6 +54,7 @@ public class ClearEditText extends EditText implements View.OnFocusChangeListene
 
     public ClearEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mContext = context;
         init();
     }
 
@@ -70,6 +98,10 @@ public class ClearEditText extends EditText implements View.OnFocusChangeListene
                         && event.getX() < getWidth() - getPaddingRight();
                 if (touchable) {
                     setText("");
+                    clearFocus();
+                    InputMethodManager inputMethodManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(this.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
                 }
             }
         }
