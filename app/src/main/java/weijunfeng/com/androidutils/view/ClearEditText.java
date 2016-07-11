@@ -48,6 +48,14 @@ boolean isOpen=imm.isActive();//isOpen若返回true，则表示输入法打开
 
  InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
  imm.hideSoftInputFromWindow(editMsgView.getWindowToken(), 0);（关闭软键盘。。。）
+ 在第一个EditText前面添加一个LinearLayout，并且一定要请求获得焦点，否则无效。网上很多都说到要添加一个LinearLayout，但是没有强调要使用 <requestFocus />这句，发现不使用这句其实是没有效果的。
+
+ <LinearLayout
+ android:focusable="true" android:focusableInTouchMode="true"
+ android:layout_width="0px" android:layout_height="0px">
+ <requestFocus />
+ </LinearLayout>
+ 然后，所有的EditText，里面都不要再使用<requestFocus />。
 
  */
 public class ClearEditText extends EditText implements View.OnFocusChangeListener, TextWatcher {
