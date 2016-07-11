@@ -36,6 +36,12 @@ imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏键盘
 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 boolean isOpen=imm.isActive();//isOpen若返回true，则表示输入法打开
 
+ 解决之道：在EditText的父级控件中找一个，设置成
+
+ android:focusable="true"
+ android:focusableInTouchMode="true"
+
+ 这样，就把EditText默认的行为截断了！
 
  */
 public class ClearEditText extends EditText implements View.OnFocusChangeListener, TextWatcher {
