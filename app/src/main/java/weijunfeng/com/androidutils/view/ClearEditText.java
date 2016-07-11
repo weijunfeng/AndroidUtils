@@ -42,6 +42,12 @@ boolean isOpen=imm.isActive();//isOpen若返回true，则表示输入法打开
  android:focusableInTouchMode="true"
 
  这样，就把EditText默认的行为截断了！
+ 还有一个方法也可以非常简单的实现这个功能：
+
+ EditText对象的clearFocus();
+
+ InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+ imm.hideSoftInputFromWindow(editMsgView.getWindowToken(), 0);（关闭软键盘。。。）
 
  */
 public class ClearEditText extends EditText implements View.OnFocusChangeListener, TextWatcher {
