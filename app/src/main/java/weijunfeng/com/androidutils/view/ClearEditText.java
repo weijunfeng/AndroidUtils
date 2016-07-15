@@ -157,6 +157,16 @@ public class ClearEditText extends EditText implements View.OnFocusChangeListene
     }
 
     @Override
+    public void setBackgroundDrawable(Drawable background) {
+        int paddingLeft = getPaddingLeft();
+        int paddingRight = getPaddingRight();
+        int paddingTop = getPaddingTop();
+        int paddingBottom = getPaddingBottom();
+        super.setBackgroundDrawable(background);
+        setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);// setpadding要在这之后执行不然无效
+    }
+
+    @Override
     public void afterTextChanged(Editable s) {
         if (mWatcher != null) {
             mWatcher.afterTextChanged(s);
