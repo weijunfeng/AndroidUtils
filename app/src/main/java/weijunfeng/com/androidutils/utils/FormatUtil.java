@@ -24,7 +24,7 @@ public class FormatUtil {
         System.out.println("12345678904.000".replaceAll("(?<=(^(\\d{3})+))", ","));
 
 
-        System.out.println("12345678905.000033".replaceAll("(?<=^\\w+)(?=(\\w{3})+\\b)", ","));
+        System.out.println("#12345678905.000033".replaceAll("(?<=^\\d+)(?=(\\d{3})+\\b)", ","));
 
 
         System.out.println("1234500006".replaceAll("(?=\\d)(?<=(^(\\d{3})+$))", ","));
@@ -47,7 +47,7 @@ public class FormatUtil {
         System.out.println(sss.replaceAll("(?<=^\\w+)(?=(?:\\w{3})+\\b)", ","));
         System.out.println("aaaa12456,90".replaceAll("\\d+", ","));
         System.out.println("s1 = " + sss);
-        System.out.println("get = " + getNumbers("￥12345a14567.9000"));
+        System.out.println("get = " + getNumbers2("9999.90990#89099."));
         String a = "I paid $90 for 10 oranges, 12 pears and 8 apples. I saved $5 on ";
         Pattern p = Pattern.compile("(?<=\\$)\\d+");
         Matcher m = p.matcher(a);
@@ -63,29 +63,39 @@ public class FormatUtil {
             String group = m.group();
             System.out.println("ss1" + group);
         }
-
+        Pattern p0 = Pattern.compile("cat");
+        Matcher m0 = p0.matcher("one cat two cats in the yard");
+        StringBuffer sb = new StringBuffer();
+        while (m0.find()) {
+            m0.appendReplacement(sb, "dog");
+        }
+        m0.appendTail(sb);
+        System.out.println(sb.toString());
     }
 
     public static String getNumbers(String content) {
-        Pattern pattern = Pattern.compile("\\d{3,}");
-        Matcher matcher = pattern.matcher(content.split("\\.")[0]);
+        Pattern pattern = Pattern.compile("\\d{4,}+(\\.?+)\\d+\\b");
+        Matcher matcher = pattern.matcher(content);
         while (matcher.find()) {
             System.out.println("matcher = " + matcher.group());
-            content = content.replace(matcher.group(), matcher.group().replaceAll("(?<=^\\w+)(?=(?:\\w{3})+\\b)", ","));
+            content = content.replace(matcher.group(), matcher.group().replaceAll("(?<=^\\d+)(?=(\\d{3})+\\b)", ","));
         }
-        return content;
+        return matcher.toMatchResult().toString();
     }
 
-    public static String formatMoney(String content) {
-        if (content != null) {
-            Pattern pattern = Pattern.compile("\\d{3,}+");
-            Matcher matcher = pattern.matcher(content.split("\\.")[0]);
-            while (matcher.find()) {
-                String group = matcher.group();
-                System.out.println("matcher = " + group);
-                content = content.replace(group, group.replaceAll("(?<=^\\d+)(?=(?:\\d{3})+\\b)", ","));
-            }
+    public static String getNumbers2(String content) {
+        Pattern pattern = Pattern.compile("\\d{4,}(\\.?)\\d*\\b");
+        Matcher matcher = pattern.matcher(content);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            System.out.println("matcher = " + matcher.group());
+            matcher.appendReplacement(sb, matcher.group().replaceAll("(?<=^\\d+)(?=(\\d{3})+\\b)", ","));
         }
-        return content;
+//        matcher.appendTail(sb);
+//        while (matcher.find()) {
+//            System.out.println("matcher = " + matcher.group());
+//            content = content.replace(matcher.group(), matcher.group().replaceAll("(?<=^\\d+)(?=(\\d{3})+\\b)", ","));
+//        }
+        return matcher.appendTail(sb).toString();
     }
 }
