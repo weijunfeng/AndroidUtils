@@ -74,18 +74,18 @@ public class ServiceFloatView extends Service {
 
     private View createFloatView() {
         FloatView floatView = new FloatView(this);
-        Button button = new Button(this);
-        button.setText("点我啊！");
-        button.setTextColor(Color.BLACK);
-        button.setBackgroundResource(R.drawable.image);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ServiceFloatView.this.getApplicationContext(), "Hi,我是悬浮窗口", Toast.LENGTH_SHORT).show();
-            }
-        });
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        floatView.addView(button, params);
+//        Button button = new Button(this);
+//        button.setText("点我啊！");
+//        button.setTextColor(Color.BLACK);
+//        button.setBackgroundResource(R.drawable.image);
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(ServiceFloatView.this.getApplicationContext(), "Hi,我是悬浮窗口", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        floatView.addView(button, params);
         return floatView;
     }
 

@@ -31,18 +31,18 @@ public class PopupWindow extends Activity {
 
             }
         });
-        final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.money_receive);
-        mediaPlayer.start();
-        popupWindow.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.gray)));
-        popupWindow.showAtLocation(imageView, Gravity.CENTER, 0, 0);
-        changeWindowAlpha(1.0f, 0.5f);
-        popupWindow.setOnDismissListener(new android.widget.PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                changeWindowAlpha(0.5f, 1.0f);
-                mediaPlayer.release();
-            }
-        });
+//        final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.money_receive);
+//        mediaPlayer.start();
+//        popupWindow.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.gray)));
+//        popupWindow.showAtLocation(imageView, Gravity.CENTER, 0, 0);
+//        changeWindowAlpha(1.0f, 0.5f);
+//        popupWindow.setOnDismissListener(new android.widget.PopupWindow.OnDismissListener() {
+//            @Override
+//            public void onDismiss() {
+//                changeWindowAlpha(0.5f, 1.0f);
+//                mediaPlayer.release();
+//            }
+//        });
     }
 
     public void showPop() {
@@ -135,10 +135,10 @@ public class PopupWindow extends Activity {
      */
     private void showDialog() {
         Dialog dialog = new Dialog(this, R.style.confirmDialog);
-        View inflate = LayoutInflater.from(this).inflate(R.layout.dialog, null);
-        dialog.setContentView(inflate);
-        //寻找view
-        dialog.findViewById(R.id.sss);
+//        View inflate = LayoutInflater.from(this).inflate(R.layout.dialog, null);
+//        dialog.setContentView(inflate);
+//        //寻找view
+//        dialog.findViewById(R.id.sss);
         // 点击popupWindow范围以外的地方,让popupWindow消失
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
